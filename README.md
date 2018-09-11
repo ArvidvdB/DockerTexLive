@@ -1,5 +1,4 @@
 # docker-texlive
-TeX Live
 
 TeX Live 2013 : 
 [![Build Status](https://travis-ci.org/brinkab/DockerTexLive.svg?branch=master&tag=2013)](https://travis-ci.org/brinkab/DockerTexLive)
