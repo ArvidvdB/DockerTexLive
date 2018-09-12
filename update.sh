@@ -63,10 +63,11 @@ RUN wget ftp://tug.org/historic/systems/texlive/\$TEXLIVE_VERSION/tlnet-final/in
   && echo "\$TEXLIVE_SHA256 install-tl-unx.tar.gz" | sha256sum -c \\
   && tar xzvf install-tl-unx.tar.gz \\
   && ./install-tl-*/install-tl -profile /texlive.profile \\
+  -no-persistent-downloads \\
   -repository ftp://tug.org/historic/systems/texlive/\$TEXLIVE_VERSION/tlnet-final \\
   && rm -rf install-tl-*
 EOD
-	elif [ "$version" -gt "2015" ]; then
+	elif [ "$version" -lt "$latest" ]; then
 			sha512=$(curl -s "ftp://tug.org/historic/systems/texlive/$version/tlnet-final/install-tl-unx.tar.gz.sha512" | cut -d' ' -f1)
 			echo "$version: $sha512"
 			cat >> "$version/Dockerfile" <<EOD
@@ -75,6 +76,7 @@ RUN wget ftp://tug.org/historic/systems/texlive/\$TEXLIVE_VERSION/tlnet-final/in
   && echo "\$TEXLIVE_SHA512 install-tl-unx.tar.gz" | sha512sum -c \\
   && tar xzvf install-tl-unx.tar.gz \\
   && ./install-tl-*/install-tl -profile /texlive.profile \\
+  -no-persistent-downloads \\
   -repository ftp://tug.org/historic/systems/texlive/\$TEXLIVE_VERSION/tlnet-final \\
   && rm -rf install-tl-*
 EOD
@@ -93,7 +95,7 @@ RUN URL="\$(curl -sILw '%{url_effective}' http://mirror.ctan.org/systems/texlive
   && wget \$URL.sha512 \\
   && sha512sum -c install-tl-unx.tar.gz.sha512 \\
   && tar xzvf install-tl-unx.tar.gz \\
-  && ./install-tl-*/install-tl -profile /texlive.profile \\
+  && ./install-tl-*/install-tl -profile /texlive.profile -no-persistent-downloads \\
   && rm -rf install-tl-*
 EOD
 	fi

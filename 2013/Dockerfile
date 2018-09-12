@@ -31,6 +31,7 @@ RUN wget ftp://tug.org/historic/systems/texlive/$TEXLIVE_VERSION/tlnet-final/ins
   && echo "$TEXLIVE_SHA256 install-tl-unx.tar.gz" | sha256sum -c \
   && tar xzvf install-tl-unx.tar.gz \
   && ./install-tl-*/install-tl -profile /texlive.profile \
+  -no-persistent-downloads \
   -repository ftp://tug.org/historic/systems/texlive/$TEXLIVE_VERSION/tlnet-final \
   && rm -rf install-tl-*
 

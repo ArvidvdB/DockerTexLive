@@ -2,7 +2,7 @@
 set -eu
 
 username=( brinkab )
-image=( docker-texlive )
+image=( dockertexlive )
 
 versions=( "$@" )
 if [ ${#versions[@]} -eq 0 ]; then
