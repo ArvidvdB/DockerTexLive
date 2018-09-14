@@ -29,9 +29,8 @@ for version in "${versions[@]}"; do
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 FROM debian:jessie
-MAINTAINER Arvid van den Brink <a.b.vandenbrink@alumnus.utwente.nl>
+MAINTAINER Arvid van den Brink <a.b.vandenbrink@utwente..nl>
 ENV DEBIAN_FRONTEND noninteractive
-
 #Build dependencies
 RUN apt-get update \\
   && apt-get install --no-install-recommends -y \\
@@ -50,7 +49,6 @@ ENV TEXMFLOCAL /usr/local/texlive/texmf-local
 ENV TEXMFSYSCONFIG /usr/local/texlive/\$TEXLIVE_VERSION/texmf-config
 ENV TEXMFSYSVAR /usr/local/texlive/\$TEXLIVE_VERSION/texmf-var
 ENV TEXMFVAR /data/.texlive\$TEXLIVE_VERSION/texmf-var
-
 EOD
 		
 #old versions use sha256, from 2016 sha512
@@ -66,7 +64,7 @@ RUN wget ftp://tug.org/historic/systems/texlive/\$TEXLIVE_VERSION/tlnet-final/in
   -repository ftp://tug.org/historic/systems/texlive/\$TEXLIVE_VERSION/tlnet-final \\
   && rm -rf install-tl-*
 EOD
-	elif [ "$version" -gt "2015" ]; then
+	elif [ "$version" -lt "$latest" ]; then
 			sha512=$(curl -s "ftp://tug.org/historic/systems/texlive/$version/tlnet-final/install-tl-unx.tar.gz.sha512" | cut -d' ' -f1)
 			echo "$version: $sha512"
 			cat >> "$version/Dockerfile" <<EOD
@@ -98,9 +96,7 @@ RUN URL="\$(curl -sILw '%{url_effective}' http://mirror.ctan.org/systems/texlive
 EOD
 	fi
 	cat >> "$version/Dockerfile" <<EOD
-
 ENV PATH="\${TEXDIR}/bin/x86_64-linux:\${PATH}"
-
 VOLUME ["/data"]
 EOD
 done
